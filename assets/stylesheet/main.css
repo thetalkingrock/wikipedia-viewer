@@ -2,6 +2,10 @@ body{
 	background-color: rgb(44, 62, 80);
 }
 
+.image-container{
+	display:none;
+}
+
 img{
 	margin-top: 5%;
 	max-height: 200px;
