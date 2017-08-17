@@ -16,6 +16,10 @@ img{
 	margin-top: 10%;
 }
 
+#search-container{
+	margin-top: 5%;
+}
+
 a{
 	font-size: 20px;
 }
@@ -30,4 +34,10 @@ a, a:hover, a:visited, a:active, a:link{
 
 a:active{
 	color:red;
+}
+
+p{
+	color:white;
+	font-size:20px;
+	margin-top: 2%;
 }
