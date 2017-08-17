@@ -41,3 +41,11 @@ p{
 	font-size:20px;
 	margin-top: 2%;
 }
+
+input{
+	display:inline-block;
+	background-color:inherit;
+	border-radius: 50px;
+	border: 2px solid white;
+	color:white;
+}
