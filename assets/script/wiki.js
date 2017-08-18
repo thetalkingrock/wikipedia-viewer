@@ -1,5 +1,8 @@
 $(document).ready(function(){
 	
+	var lastSearchTerm = "";
+	var containersFull = false;
+	
 	$("#image-container").fadeIn(1500, function () {
 		$("#random-link-container").fadeIn(1500, function () {
 			$("#search-container").fadeIn(1500);
@@ -7,12 +10,15 @@ $(document).ready(function(){
 	});
 	
 	$(document).keypress(function (e) {
-		if(e.which == 13 && $("input").val() !== "" && $("input").val() != null){
+	
+		if(e.which == 13 && $("input").val() !== "" && $("input").val() != null && !containersFull){
 			
 			var searchTerm = $("input").val();
 			searchTerm = searchTerm.trim();
 			searchTerm = searchTerm.replace(/\s\s+/g, " ");
 			searchTerm = searchTerm.replace(/\s/, "+");
+			
+			lastSearchTerm = searchTerm;
 			
 			var wikiURL = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=";
 			wikiURL += searchTerm;
@@ -45,7 +51,46 @@ $(document).ready(function(){
 					})
 				}
 			});
+			containersFull = true;
+		}
+		else if(e.which == 13 && $("input").val() !== "" && $("input").val() != null && containersFull){
+			
+			var searchTerm = $("input").val();
+			searchTerm = searchTerm.trim();
+			searchTerm = searchTerm.replace(/\s\s+/g, " ");
+			searchTerm = searchTerm.replace(/\s/, "+");
+			
+			if(searchTerm !== lastSearchTerm){
+				lastSearchTerm = searchTerm;
+				
+				$("#results-container").fadeTo(1000, 0, function(){
+				
+					var wikiURL = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=";
+					wikiURL += searchTerm;
+					wikiURL += "&utf8=&format=json";
+				
+					$.ajax({
+						type: "GET",
+						url: wikiURL,
+						dataType: "jsonp",
+						success: function(data){
+							var numResults = data["query"]["search"].length;
+							for(var x = 0; x < numResults; x++){
+								var currentResult = data["query"]["search"][x]["title"];
+							
+								var link = "https://en.wikipedia.org/wiki/";
+								link += currentResult.replace(/\s/g, "_");
+								
+								$("#results-container a").eq(x).attr("href", link);
+								$("#results-container div").eq(x).text(currentResult);
+							}
+						
+							$("#results-container").fadeTo(1000, 1);
+						}
+					});
+				});	
+			}
+			
 		}
 	});
-	
 });
