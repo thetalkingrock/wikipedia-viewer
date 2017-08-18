@@ -26,7 +26,17 @@ $(document).ready(function(){
 					var numResults = data["query"]["search"].length;
 					for(var x = 0; x < numResults; x++){
 						var currentResult = data["query"]["search"][x]["title"];
-						var result = "<div class='result-container'>" + currentResult + "</div>";
+						var result = "<a href=";
+						
+						var link = "https://en.wikipedia.org/wiki/";
+						link += currentResult.replace(/\s/g, "_");
+						
+						result += link;
+						result += " target=_blank";
+						result += ">";
+						
+						result += "<div class='result-container'>" + currentResult + "</div>";
+						result += "</a>";
 						$("#results-container").append(result);
 					}
 					
