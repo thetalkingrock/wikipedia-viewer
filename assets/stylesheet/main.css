@@ -60,3 +60,8 @@ input{
 	padding: 10px;
 	width: 100%;
 }
+
+.result-container:hover{
+	background-color:white;
+	color: #98ff98;
+}
