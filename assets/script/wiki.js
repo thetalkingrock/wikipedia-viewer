@@ -11,6 +11,9 @@ $(document).ready(function(){
 			
 			var searchTerm = $("input").val();
 			searchTerm = searchTerm.trim();
+			searchTerm = searchTerm.replace(/\s\s+/g, " ");
+			searchTerm = searchTerm.replace(/\s/, "+");
+			
 			var wikiURL = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=";
 			wikiURL += searchTerm;
 			wikiURL += "&utf8=&format=json";
@@ -19,7 +22,18 @@ $(document).ready(function(){
 				type: "GET",
 				url: wikiURL,
 				dataType: "jsonp",
-				success: alert("success!")
+				success: function(data){
+					var numResults = data["query"]["search"].length;
+					for(var x = 0; x < numResults; x++){
+						var currentResult = data["query"]["search"][x]["title"];
+						var result = "<div class='result-container'>" + currentResult + "</div>";
+						$("#results-container").append(result);
+					}
+					
+					$(".result-container").each(function () {
+						$(this).fadeIn(1500);
+					})
+				}
 			});
 		}
 	});
